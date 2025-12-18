@@ -15,9 +15,7 @@ const errorHandler = (err, req, res, next) => {
   }
   //mongoose validation error
   if (err.name === "ValidationError") {
-    message = Object.values(err.errors)
-      .map((val) => val.message)
-      .join(", ");
+    message = Object.values(err.errors).map((val) => val.message).join(",");
     statusCode = 400;
   }
   //multer file size error
@@ -40,7 +38,7 @@ const errorHandler = (err, req, res, next) => {
     message: err.message,
     stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
   });
-  res.status(statusCode).join({
+  res.status(statusCode).json({
     success: false,
     error: message,
     statusCode,

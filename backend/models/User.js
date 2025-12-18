@@ -12,9 +12,17 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "please provide a password"],
-      minLength: [6, "proassord msut be at least 6 character long"],
-      select: false,
+      required: [true, "please provide an email"],
+      unique:true,
+      lowercase:true,
+      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/,"please provide a valid email"
+  ]
+    },
+    password:{
+      type:String,
+      required:[true,"please provide a password"],
+      minLength: [6, "passowrd msut be at least 6 character long"],
+      select:false
     },
     profileImage: {
       type: String,
@@ -27,7 +35,7 @@ const userSchema = new mongoose.Schema(
 //Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
-    next();
+    return next();
   }
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);

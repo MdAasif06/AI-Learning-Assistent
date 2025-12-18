@@ -9,7 +9,8 @@ import errorHandler from "./middleware/errorHandler.js"
 import authRoutes from "./routes/authRoute.js"
 
 
-
+//connected to Database
+connectDB();
 
 //ES6 module __dirname alternative
 const __filename = fileURLToPath(import.meta.url);
@@ -18,8 +19,6 @@ const __dirname = path.dirname(__filename);
 //Initilize express app
 const app = express();
 
-//connected to Database
-connectDB();
 
 //middleware to handle CORS
 app.use(
