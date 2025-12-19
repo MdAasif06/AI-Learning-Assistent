@@ -5,24 +5,22 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, "please provide a username"],
+      required: true,
       unique: true,
       trim: true,
-      minLength: [3, "username must be at least 3 character long"],
+      minlength: 3,
     },
     email: {
       type: String,
-      required: [true, "please provide an email"],
-      unique:true,
-      lowercase:true,
-      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/,"please provide a valid email"
-  ]
+      required: true,
+      unique: true,
+      lowercase: true,
     },
-    password:{
-      type:String,
-      required:[true,"please provide a password"],
-      minLength: [6, "passowrd msut be at least 6 character long"],
-      select:false
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+      select: false,
     },
     profileImage: {
       type: String,
@@ -32,19 +30,17 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-//Hash password before saving
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
+// hash password
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+
 });
 
-//compare password method
-userSchema.methods.matchPassword = async function (enterPassword) {
-  return await bcrypt.compare(enterPassword, this.password);
+// compare password
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return bcrypt.compare(enteredPassword, this.password);
 };
 
-const User = mongoose.model("User", userSchema);
-export default User;
+export default mongoose.model("User", userSchema);
