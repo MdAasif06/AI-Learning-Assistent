@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import connectDB from "./config/db.js"
 import errorHandler from "./middleware/errorHandler.js"
 import authRoutes from "./routes/authRoute.js"
-
+import documentRoute from "./routes/documentRoute.js"
 
 //connected to Database
 connectDB();
@@ -38,6 +38,7 @@ app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 
 //Routes
 app.use('/api/auth',authRoutes)
+app.use('/api/documents',documentRoute)
 
 
 

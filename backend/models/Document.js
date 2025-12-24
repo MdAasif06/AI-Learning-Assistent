@@ -64,5 +64,5 @@ const documentSchema = new mongoose.Schema(
 //index for faster quries
 documentSchema.index({ userId: 1, uploadDate: -1 });
 
-const Document = mongoose.mode("Document", documentSchema);
+const Document = mongoose.model("Document", documentSchema);
 export default Document;
