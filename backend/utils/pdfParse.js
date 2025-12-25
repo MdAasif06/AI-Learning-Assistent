@@ -5,10 +5,10 @@ import { PDFParse } from "pdf-parse";
 /**
  * Extract text from pdf file
  * @param {string} filePath -Path to pdf file
- * @returns {promise<{text:string,numPages:number}>}
+ * @returns {promises<{text:string,numPages:number}>}
  */
 
-export const extractTextFromPDF = async (req, res, next) => {
+export const extractTextFromPDF = async (filePath) => {
   try {
     const dataBuffer = await fs.readFile(filePath);
     //pdf-parse expects a unit8Array,not a buffer
